@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import NotefulForm from '../NotefulForm/NotefulForm';
 import ApiContext from '../ApiContext';
+import PropTypes from 'prop-types';
+import ErrorBoundary from '../ErrorBoundary';
 import config from '../config';
 import './AddNote.css';
 
@@ -75,47 +77,53 @@ class AddNote extends Component {
   render() {
     const {folders = []} = this.context;
     return (
-      <section className="AddNote">
-        <h2>Add a Note</h2>
-        <NotefulForm onSubmit={this.handleSubmit}>
-          <div className="field">
-            <label htmlFor="note-name-input">
-              Name
-            </label>
-            <input type="text" name="note-name" id="note-name-input" onChange={this.onChange}/>
-          </div>
-          <div className="field">
-            <label htmlFor="note-folder-select">
-              Folder
-            </label>
-            <select name="note-folder-id" id="note-folder-select" onChange={this.onChange}>
-              <option value={null}>...</option>
-              {folders.map(folder => 
-                <option key={folder.id} value={folder.id}>
-                  {folder.name}
-                </option>
-              )}
-            </select>
-          </div>
-          <div className="field">
-            <label htmlFor="note-content-input">
-              Content
-            </label>
-            <textarea name="note-content" id="note-content-input" onChange={this.onChange} />
-          </div>
-          {this.state.error && (
-            <p>{this.state.error}</p>
-          )}
-          <div className="buttons">
-            <button type="submit">
-              Add Note
-            </button>
-          </div>
-        </NotefulForm>
-      </section>
+      <ErrorBoundary>
+        <section className="AddNote">
+          <h2>Add a Note</h2>
+          <NotefulForm onSubmit={this.handleSubmit}>
+            <div className="field">
+              <label htmlFor="note-name-input">
+                Name
+              </label>
+              <input type="text" name="note-name" id="note-name-input" onChange={this.onChange}/>
+            </div>
+            <div className="field">
+              <label htmlFor="note-folder-select">
+                Folder
+              </label>
+              <select name="note-folder-id" id="note-folder-select" onChange={this.onChange}>
+                <option value={null}>...</option>
+                {folders.map(folder => 
+                  <option key={folder.id} value={folder.id}>
+                    {folder.name}
+                  </option>
+                )}
+              </select>
+            </div>
+            <div className="field">
+              <label htmlFor="note-content-input">
+                Content
+              </label>
+              <textarea name="note-content" id="note-content-input" onChange={this.onChange} />
+            </div>
+            {this.state.error && (
+              <p>{this.state.error}</p>
+            )}
+            <div className="buttons">
+              <button type="submit">
+                Add Note
+              </button>
+            </div>
+          </NotefulForm>
+        </section>
+      </ErrorBoundary>
     )
   }
 
+}
+
+AddNote.propTypes = {
+  history: PropTypes.object
 }
 
 export default AddNote;

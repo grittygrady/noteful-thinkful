@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import NotefulForm from '../NotefulForm/NotefulForm';
 import ApiContext from '../ApiContext';
 import ValidationError from '../ValidationError';
+import PropTypes from 'prop-types';
+import ErrorBoundary from '../ErrorBoundary';
 import config from '../config';
 import './AddFolder.css';
 
@@ -86,25 +88,32 @@ class AddFolder extends Component {
 
   render() {
     return (
-      <section className="AddFolder">
-        <h2>Add a Folder</h2>
-        <NotefulForm onSubmit={this.handleSubmit}>
-        <div className="field">
-          <label htmlFor="folder-name-input">
-            Name
-          </label>
-          <input type="text" name="folder-name" id="folder-name-input" onChange={(event) => this.updateName(event.target.value)} />
-        </div>
-        <div className="buttons">
-          <button disabled={!this.state.formValid} type='submit'>
-            Add a folder
-          </button>
-        </div>
-        </NotefulForm>
-        <ValidationError hasError={!this.state.nameValid} message={this.state.validationMessages.name} />
-      </section>
+      <ErrorBoundary>
+        <section className="AddFolder">
+          <h2>Add a Folder</h2>
+          <NotefulForm onSubmit={this.handleSubmit}>
+          <div className="field">
+            <label htmlFor="folder-name-input">
+              Name
+            </label>
+            <input type="text" name="folder-name" id="folder-name-input" onChange={(event) => this.updateName(event.target.value)} />
+          </div>
+          <div className="buttons">
+            <button disabled={!this.state.formValid} type='submit'>
+              Add a folder
+            </button>
+          </div>
+          </NotefulForm>
+          <ValidationError hasError={!this.state.nameValid} message={this.state.validationMessages.name} />
+        </section>
+      </ErrorBoundary>
     )
   }
+}
+
+AddFolder.propTypes = {
+  history: PropTypes.object,
+  name: PropTypes.string
 }
 
 export default AddFolder;
