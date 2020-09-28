@@ -73,5 +73,5 @@ Note.propTypes = {
   deleteNote: PropTypes.func,
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  modified: PropTypes.any.isRequired
+  modified: PropTypes.string.isRequired
 }
